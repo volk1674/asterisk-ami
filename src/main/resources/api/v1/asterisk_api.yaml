@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+    title: Методы для управления звонками
+    version: v1
+tags:
+    -   name: REST API
+
+paths:
+    '/api/v1/state':
+        get:
+            description: Возвращает статус подключения к серверу asterisk
+            operationId: getStatus
+            tags:
+                - REST API
+            responses:
+                200:
+                    description: Успешный ответ
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: "#/components/schemas/GetStatusResponse"
+    '/api/v1/extension/state':
+        parameters:
+            -   name: exten
+                in: query
+                required: true
+                schema:
+                    type: string
+            -   name: context
+                in: query
+                schema:
+                    type: string
+        get:
+            description: Возвращает состояние для номера в рамках контекста
+            operationId: getExtensionState
+            tags:
+                - REST API
+            responses:
+                200:
+                    description: Успешный ответ
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GetExtensionStateResponse"
+
+    '/api/v1/originate':
+        post:
+            description: Создать исходящий звонок
+            operationId: originateCall
+            tags:
+                - REST API
+            requestBody:
+                content:
+                    'application/json':
+                        schema:
+                            $ref: "#/components/schemas/OriginateRequest"
+            responses:
+                200:
+                    description: Успешный ответ
+                    content:
+                        'application/json':
+                            schema:
+                                $ref: "#/components/schemas/OriginateResponse"
+
+components:
+    schemas:
+        GetStatusResponse:
+            type: object
+            properties:
+                state:
+                    type: string
+                    enum:
+                        - INITIAL
+                        - CONNECTING
+                        - CONNECTED
+                        - RECONNECTING
+                        - DISCONNECTING
+                        - DISCONNECTED
+                version:
+                    type: string
+                    description: Версия AMI с которой установлено подключение
+
+        OriginateRequest:
+            type: object
+            required:
+                - channel
+            properties:
+                context:
+                    type: string
+                    description: Название контекста. Если не задан будет использоваться контекст из настроек сервера.
+                exten:
+                    type: string
+                    description: Номер на который совершаем звонок
+                priority:
+                    type: integer
+                    description: Приоритет звонка
+                    default: 1
+                channel:
+                    type: string
+                    description: Канал
+
+        OriginateResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: Флаг успешности установки соединения
+
+        GetExtensionStateResponse:
+            type: object
+            properties:
+                exten:
+                    type: string
+                    description: Номер для которого запрашивалось состояние
+                context:
+                    type: string
+                    description: Контекст владелец exten
+                hint:
+                    type: string
+                status:
+                    type: integer
+                statusText:
+                    type: string

@@ -1,0 +1,47 @@
+spring:
+    application:
+        name: asterisk-server
+    security:
+        user:
+            name: ${SERVER_USER:USER123}
+            password: ${SERVER_PASSWORD:USER123}
+
+asterisk:
+    client:
+        host: ${AMI_HOST:192.168.0.110}
+        port: ${AMI_PORT:5038}
+        user: ${AMI_USER:test_ami}
+        password: ${AMI_USER:test_ami}
+        ssl: false
+        encoding: ${AMI_CONNECTION_ENCODING:UTF-8}
+        ping-interval: ${AMI_PING_INTERVAL:30s}
+
+
+call-notification:
+    url: ${NOTIFICATION_URL:}
+    filters:
+        -   name: Event
+            regex: (?:Newstate)|(?:Hangup)
+        -   name: Channel
+            regex: PJSIP/.*
+
+
+management:
+    info:
+        git:
+            enabled: true
+    endpoint:
+        health:
+            show-details: always
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+
+
+logging:
+    level:
+        root: info
+        ru.ivolkov.asterisk: debug
+
