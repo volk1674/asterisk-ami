@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import ru.ivolkov.asterisk.clients.IncomingCallNotifierProperties;
+import ru.ivolkov.asterisk.clients.ExternalNotifierProperties;
 
-@EnableConfigurationProperties(IncomingCallNotifierProperties.class)
+@EnableConfigurationProperties(ExternalNotifierProperties.class)
 @EnableWebFluxSecurity
 @SpringBootApplication
 public class Application {

@@ -17,13 +17,22 @@ asterisk:
         ping-interval: ${AMI_PING_INTERVAL:30s}
 
 
-call-notification:
+external-notifier:
     url: ${NOTIFICATION_URL:}
-    filters:
-        -   name: Event
-            regex: (?:Newstate)|(?:Hangup)
-        -   name: Channel
-            regex: PJSIP/.*
+    events:
+        -   name: NewState
+            filters:
+                -   name: Event
+                    regex: (?:^Newstate$)
+                -   name: Channel
+                    regex: ^PJSIP/.*
+                -   name: Context
+                    value: from-internal
+            fieldsMapping:
+                channelstate: ChannelState
+                channelstatedesc: ChannelStateDesc
+                connectedlinenum: ConnectedLineNum
+                calleridnum: CallerIdNum
 
 
 management:

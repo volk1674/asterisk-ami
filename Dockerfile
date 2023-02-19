@@ -6,7 +6,6 @@ COPY pom.xml /app
 RUN mvn -f /app/pom.xml package
 
 
-
 FROM bellsoft/liberica-openjdk-debian
 
 COPY --from=builder /app/target/asterisk-java-server-1.0-SNAPSHOT.jar /app/java-server.jar
