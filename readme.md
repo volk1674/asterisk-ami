@@ -5,7 +5,7 @@
 будет доступно API приложения. 
 
 
-* **NOTIFICATION_URL**: URL на который надо отправлять нотификации об изменении состояния.
+* **NOTIFICATION_URL**: URL на который надо отправлять нотификации об изменении состояния. События отправляются через HTTP/POST. Авторизации нет.
 * **AMI_HOST**: IP адрес AMI сервера.
 * **AMI_PORT**: IP порт AMI сервера.
 * **AMI_USER**: Пользователь под которым подключаться к AMI серверу
@@ -17,6 +17,22 @@
 
 
 Страничка API доступна по адресу http://localhost:8080/swagger-ui/
+
+
+Пример сообщения:
+
+```json
+{
+  "name": "NewState",
+  "data": {
+    "ChannelState": "5",
+    "ChannelStateDesc": "Ringing",
+    "ConnectedLineNum": "303",
+    "CallerIdNum": "302"
+  }
+}
+```
+
 
 
 
